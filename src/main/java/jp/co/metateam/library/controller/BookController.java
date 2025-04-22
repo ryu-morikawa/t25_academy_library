@@ -12,11 +12,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import io.micrometer.common.util.StringUtils;
 import jakarta.validation.Valid;
+import jp.co.metateam.library.model.Account;
+import jp.co.metateam.library.model.AccountDto;
 import jp.co.metateam.library.model.BookMst;
 import jp.co.metateam.library.model.BookMstDto;
 import jp.co.metateam.library.service.BookMstService;
+import jp.co.metateam.library.values.AuthorizationTypes;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 書籍関連クラス
@@ -44,11 +49,34 @@ public class BookController {
 
     @GetMapping("/book/add")
     public String add(Model model) {
+        model.addAttribute("authorizationTypes", AuthorizationTypes.values());
+        
         if (!model.containsAttribute("bookMstDto")) {
             model.addAttribute("bookMstDto", new BookMstDto());
         }
 
         return "book/add";
     }
-    
-}
+        
+
+    @PostMapping("/book/add")
+      public String saveBook(@ModelAttribute("bookMstDto") BookMstDto bookMstDto,
+                                   BindingResult result,
+                                   Model model) {
+            
+                boolean checkResult = bookMstService.checkEntry(bookMstDto, model);
+                           
+                if (checkResult) {
+                    return "book/add"; // バリデーションエラー時、登録画面に戻す
+                } 
+                boolean checkIsbnResult = bookMstService.checkIsbnEntry(bookMstDto,model);
+                if(checkIsbnResult ){
+                    return "book/add"; // バリデーションエラー時、登録画面に戻す
+                }
+               
+                // 登録処理
+                bookMstService.save(bookMstDto);
+                return "redirect:/book/index"; // 正常登録後、一覧に戻る
+       
+        }
+        }
