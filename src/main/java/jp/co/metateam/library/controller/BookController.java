@@ -65,7 +65,7 @@ public class BookController {
                                    Model model) {
             
                 boolean checkResult = bookMstService.checkEntry(bookMstDto, model);
-                           
+                           //画面変更します
                 if (checkResult) {
                     return "book/add"; // バリデーションエラー時、登録画面に戻す
                 } 
