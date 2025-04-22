@@ -87,7 +87,7 @@ public class BookMstService {
         List<String>errTitleList = new ArrayList<>() ;
         List<String>errIsbnList = new ArrayList<>() ;
         List<BookMst> bookMst  = this.bookMstRepository.selectByIsbn(getIsbn);
-        if (bookMst != null) {
+        if (!bookMst.isEmpty()) {
             errIsbnList.add("登録されているISBNです");
             model.addAttribute("errIsbn", errIsbnList);
             return true;}
