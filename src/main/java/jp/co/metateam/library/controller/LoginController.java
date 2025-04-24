@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class LoginController {
-
+//変更しました
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -25,7 +25,6 @@ public class LoginController {
         return "redirect:/login";
     }
 
-    //testコメント2
+    //testコメント23   
 }
-
 
