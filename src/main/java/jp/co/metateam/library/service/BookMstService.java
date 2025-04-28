@@ -49,7 +49,9 @@ public class BookMstService {
         }
 
         return bookMstDtoList;
-    }//変更
+    }
+    
+    //変更
 
     @PostMapping    
     public Boolean checkEntry (BookMstDto bookMstDto,Model model){
