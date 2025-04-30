@@ -36,16 +36,18 @@ public class BookController {
     public BookController(BookMstService bookMstService){
         this.bookMstService = bookMstService;
     }
-
     @GetMapping("/book/index")
     public String index(Model model) {
         // 書籍を全件取得
         List<BookMstDto> bookMstList = this.bookMstService.findAvailableWithStockCount();
-        
+         // 例：在庫が1冊以上ある書籍だけ取得する
         model.addAttribute("bookMstList", bookMstList);
 
         return "book/index";
     }
+   
+
+    
 
     @GetMapping("/book/add")
     public String add(Model model) {

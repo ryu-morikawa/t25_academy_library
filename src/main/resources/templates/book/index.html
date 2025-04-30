@@ -1,18 +1,73 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="~{common :: meta_header('書籍一覧',~{::link},~{::script})}">
     <title th:text="${title}+' | MTLibrary'"></title>
     <link rel="stylesheet" th:href="@{/css/book/index.css}" />
     <script type="text/javascript" th:src="@{/js/book/index.js}"></script>
 </head>
+
 <body>
     <div class="contents">
         <div th:replace="~{common :: main_sidebar}"></div>
         <div class="main_contents">
             <div th:replace="~{common :: header}"></div>
-            <div class="inner_contens">
-                <div class="page_title">書籍一覧</div>
+            <style>
+                .btn_block {
+                    text-align: right;
+                    padding-right: 80px;
+                    margin-top: 10px;
+                }
+            </style>
+            <div class="page_title">書籍一覧</div>
+            <div class="btn_block">
+                <div style = "text-align: right;">
+                <form th:action="@{/book/add}" method="get"style="display: inline-block;">
+                    <input type="submit" value="+書籍登録" style="padding: 12px 24px; font-size: 16px; background-color: #87f4b4fa;border: 1px solid #87f4b4fa;">
+                </form>
+                </div>
             </div>
+            <style>
+                table {
+                    width: 60%;
+                    /* テーブルの幅を調整 */
+                    margin: 0 auto;
+                    /* 中央寄せ */
+                    border-collapse: collapse;
+                    /* セルの間隔をなくす */
+                }
+                th,
+                td {
+                    padding: 15px;
+                    /* セル内の余白を大きく */
+                    text-align: center;
+                    /* セル内の文字を中央寄せ */
+                }
+                th {
+                    background-color: lightgray;
+                    /* ヘッダーの背景色 */
+                    font-size: 18px;
+                    /* ヘッダーの文字サイズ */
+                }
+                td {
+                    font-size: 16px;
+                    /* データセルの文字サイズ */
+                }
+            </style>
+            <table class="book_table" border="1" style="margin: 0 auto;">
+                <thead>
+                    <tr>
+                        <th>書籍名</th>
+                        <th>ISBN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="book : ${bookMstList}">
+                        <td th:text="${book.title}"></td>
+                        <td th:text="${book.isbn}"></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div th:replace="~{common :: footer}"></div>
